@@ -1,3 +1,13 @@
+---
+title: CorpGuide AI
+emoji: 🤖
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
 # CorpGuideAI - HR Policy Assistant
 
 **CorpGuideAI** is an advanced AI-powered assistant designed to help employees navigate and understand internal HR policies. Leveraging **Retrieval-Augmented Generation (RAG)**, it provides accurate, context-aware answers based on your organization's PDF documents.

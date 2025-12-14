@@ -1,6 +1,7 @@
 import logging
 import time
 import os
+import shutil
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -15,16 +16,19 @@ logger = logging.getLogger(__name__)
 class RagPipeline:
     def __init__(self):
         try:
-            self.llm = LLMClient().get_llm()
-            self.vector_store = VectorStore()
+            
 
             # Force Rebuild Strategy
-            import shutil
             if os.path.exists("vector_db"):
                 logger.info("Removing existing ChromaDB for fresh start...")
-                shutil.rmtree("vector_db")
-                # Re-initialize VectorStore to create clean directory
-                self.vector_store = VectorStore()
+                try:
+                    shutil.rmtree("vector_db")
+                    logger.info("Old database deleted successfully.")
+                except Exception as del_err:
+                    logger.error(f"Failed to remove existing ChromaDB: {str(del_err)}")
+
+            self.llm = LLMClient().get_llm()
+            self.vector_store = VectorStore()   
 
             logger.info("Starting automatic document ingestion...")
             try:

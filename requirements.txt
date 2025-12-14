@@ -5,7 +5,7 @@ python-dotenv==1.0.1
 aiofiles==23.2.1
 pypdf==4.3.1
 sentence-transformers==3.0.1
-chromadb==0.5.5
+chromadb==0.5.3
 
 # --- LangChain Stable Stack (v0.2) ---
 langchain==0.2.14

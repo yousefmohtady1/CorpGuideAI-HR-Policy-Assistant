@@ -20,9 +20,9 @@ class RagPipeline:
 
             # Force Rebuild Strategy
             import shutil
-            if os.path.exists("chroma_db"):
+            if os.path.exists("vector_db"):
                 logger.info("Removing existing ChromaDB for fresh start...")
-                shutil.rmtree("chroma_db")
+                shutil.rmtree("vector_db")
                 # Re-initialize VectorStore to create clean directory
                 self.vector_store = VectorStore()
 

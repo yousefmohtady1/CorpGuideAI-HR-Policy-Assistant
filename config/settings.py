@@ -14,7 +14,7 @@ class Settings:
     EMBEDDING_MODEL = "Alibaba-NLP/gte-multilingual-base"
 
     #Vector DB
-    CHROMA_PERSIST_DIR = "chroma_db"
+    CHROMA_PERSIST_DIR = "vector_db"
     COLLECTION_NAME = "policy_docs"
     DATA_DIR = "data"
 

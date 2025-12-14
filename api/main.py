@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI, HTTPException
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+
 from api.schemas import ChatRequest, ChatResponse, UploadResponse
 from core.rag_pipeline import RagPipeline
 
@@ -44,7 +44,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_index():
-    return FileResponse("web_ui/index.html")
+    return {"status": "online", "message": "CorpGuide AI API is running. Use the Frontend application to interact."}
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):

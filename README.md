@@ -21,7 +21,6 @@ app_port: 7860
   - Extracts text from PDFs.
   - Improves retrieval speed and accuracy with semantic chunking.
   - Uses `Alibaba-NLP/gte-multilingual-base` for robust multilingual support.
-- **Interactive Web UI**: A modern, clean chat interface to interact with the assistant.
 - **Chat History Management**: Maintains context across the conversation session (Reset supported).
 - **FastAPI Backend**: A high-performance API to serve requests.
 - **Docker Support**: Containerized for easy deployment.
@@ -29,7 +28,6 @@ app_port: 7860
 ## 🛠️ Tech Stack
 
 - **Language**: Python 3.10+
-- **Frontend**: HTML5, CSS3, Vanilla JS
 - **Backend**: FastAPI, Uvicorn
 - **AI/ML**: LangChain, HuggingFace, ChromaDB, Groq
 - **Tools**: `pypdf`, `sentence-transformers`, Docker
@@ -51,10 +49,6 @@ CorpGuideAI-HR-Policy-Assistant/
 │   ├── document_processor.py
 │   ├── vector_store.py
 │   ├── llm_client.py
-├── web_ui/                  # Frontend Application
-│   ├── index.html
-│   ├── script.js
-│   ├── style.css
 ├── ingest.py                # Document ingestion script
 ├── Dockerfile               # Docker container configuration
 ├── requirements.txt         # Dependencies
@@ -106,7 +100,7 @@ Launch the FastAPI server:
 uvicorn api.main:app --reload
 ```
 
-    Access the Web UI at: `http://localhost:8000`
+    The API will be accessible at: `http://localhost:8000`
 
 ### Option 2: Docker
 
@@ -120,11 +114,11 @@ uvicorn api.main:app --reload
     ```bash
     docker run -p 7860:7860 --env-file .env corpguide-ai
     ```
-    Access at: `http://localhost:7860`
+    The API will be accessible at: `http://localhost:7860`
 
 ## 🔗 API Endpoints
 
-- `GET /`: Serves the Web UI.
+- `GET /`: Health check / Root.
 - `POST /chat`: Chat endpoint.
   - Body: `{ "question": "..." }` (History managed internally)
 

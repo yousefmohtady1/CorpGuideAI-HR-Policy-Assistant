@@ -2,7 +2,6 @@ import logging
 from fastapi import FastAPI, HTTPException
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from api.schemas import ChatRequest, ChatResponse, UploadResponse
 from core.rag_pipeline import RagPipeline
@@ -42,8 +41,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.mount("/static", StaticFiles(directory="web_ui"), name="static")
 
 @app.get("/")
 async def read_index():

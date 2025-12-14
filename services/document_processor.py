@@ -49,3 +49,28 @@ class DocumentProcessor:
         except Exception as e:
             logger.error(f"Error processing PDF: {str(e)}")
             raise e
+
+    def process_documents(self, directory_path: str):
+        try:
+            import os
+            logger.info(f"Processing documents from {directory_path}")
+            
+            if not os.path.exists(directory_path):
+                logger.warning(f"Directory {directory_path} does not exist.")
+                return []
+            
+            pdf_files = [f for f in os.listdir(directory_path) if f.endswith('.pdf')]
+            
+            all_chunks = []
+            for pdf_file in pdf_files:
+                file_path = os.path.join(directory_path, pdf_file)
+                chunks = self.process_pdf(file_path)
+                for chunk in chunks:
+                    chunk.metadata['source'] = pdf_file
+                all_chunks.extend(chunks)
+            
+            return all_chunks
+            
+        except Exception as e:
+            logger.error(f"Error processing documents directory: {str(e)}")
+            raise e

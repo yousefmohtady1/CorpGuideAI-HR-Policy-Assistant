@@ -92,17 +92,20 @@ CorpGuideAI-HR-Policy-Assistant/
     GROQ_API_KEY=your_groq_api_key_here
     ```
 
-3.  **Ingest Documents**:
-    Place PDFs in `data/` and run:
+3.  ### 1. Ingest Documents
 
-    ```bash
-    python ingest.py
-    ```
+Place your HR policy PDF files in the `data/` directory.
 
-4.  **Run Server**:
-    ```bash
-    uvicorn api.main:app --reload
-    ```
+> **Note:** The system automatically ingests documents from the `data/` directory every time the server starts. This ensures your database is always fresh and in sync with your files.
+
+### 2. Start the API Server
+
+Launch the FastAPI server:
+
+```bash
+uvicorn api.main:app --reload
+```
+
     Access the Web UI at: `http://localhost:8000`
 
 ### Option 2: Docker
@@ -124,7 +127,6 @@ CorpGuideAI-HR-Policy-Assistant/
 - `GET /`: Serves the Web UI.
 - `POST /chat`: Chat endpoint.
   - Body: `{ "question": "..." }` (History managed internally)
-- `POST /reset`: Clears current chat history.
 
 ## 📄 License
 

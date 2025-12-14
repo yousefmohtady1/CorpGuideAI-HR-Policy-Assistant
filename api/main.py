@@ -49,15 +49,6 @@ app.mount("/static", StaticFiles(directory="web_ui"), name="static")
 async def read_index():
     return FileResponse("web_ui/index.html")
 
-@app.post("/reset")
-async def reset_chat():
-    try:
-        if 'rag' in pipeline_resources and hasattr(pipeline_resources['rag'], 'clear_history'):
-            pipeline_resources['rag'].clear_history()
-        return {"message": "Chat history has been reset."}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     try:

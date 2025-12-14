@@ -92,12 +92,8 @@ async function startNewChat() {
     `;
 
     // 3. Notify server to clear memory (optional, for double confirmation)
-    try {
-        await fetch(RESET_URL, { method: 'POST' });
-        console.log("Backend history reset.");
-    } catch (e) {
-        console.warn("Backend reset failed (might be stateless):", e);
-    }
+    // Server is stateless now, so no need to call /reset
+    console.log("Client history cleared.");
 }
 
 // ==========================================

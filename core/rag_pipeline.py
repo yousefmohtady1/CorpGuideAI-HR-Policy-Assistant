@@ -18,26 +18,35 @@ class RagPipeline:
             self.llm = LLMClient().get_llm()
             self.vector_store = VectorStore()
 
+            # Force Rebuild Strategy
+            import shutil
+            if os.path.exists("chroma_db"):
+                logger.info("Removing existing ChromaDB for fresh start...")
+                shutil.rmtree("chroma_db")
+                # Re-initialize VectorStore to create clean directory
+                self.vector_store = VectorStore()
+
+            logger.info("Starting automatic document ingestion...")
             try:
-                logger.info("Checking Vector Database integrity...")
+                processor = DocumentProcessor()
+                docs = processor.process_documents("./data")
+                
+                if docs:
+                    self.vector_store.add_documents(docs)
+                    logger.info(f"Successfully ingested {len(docs)} chunks from ./data")
+                else:
+                    logger.warning("No PDF documents found in ./data to ingest.")
+            except Exception as ingest_error:
+                logger.error(f"Ingestion failed: {str(ingest_error)}")
+                # We don't raise here, we allow the pipeline to start even if empty, 
+                # though it won't answer well.
+            
+            # Basic sanity check
+            try:
                 test_retriever = self.vector_store.get_retriever(k=1)
-                test_retriever.invoke("test") 
-                logger.info("Vector Database is healthy and ready.")
-                
-            except Exception as e:
-                logger.warning(f"Database seems empty or corrupt ({str(e)}). Rebuilding from PDF...")
-                
-                try:
-                    processor = DocumentProcessor()
-                    docs = processor.process_documents("./data")
-                    
-                    if not docs:
-                        logger.error("No documents found in ./data folder to ingest!")
-                    else:
-                        self.vector_store.add_documents(docs)
-                        logger.info(f"Successfully rebuilt database with {len(docs)} chunks.")
-                except Exception as build_error:
-                    logger.error(f"Failed to rebuild database: {str(build_error)}")
+                test_retriever.invoke("test")
+            except Exception as e: 
+                logger.warning(f"Vector DB sanity check failed: {e}")
             
             self.retriever = self.vector_store.get_retriever(k=5)
             self.prompt = get_chat_prompt()
@@ -59,9 +68,6 @@ class RagPipeline:
         except Exception as e:
             logger.error(f"Error initializing RAG pipeline: {str(e)}")
             raise e
-
-    def clear_history(self):
-        pass
 
     def process_query(self, question:str, chat_history: list = []):
         start_time = time.time()
